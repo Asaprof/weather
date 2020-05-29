@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <title>Weather</title>
+</head>
+<body>
+    <div class="weather">
+
+        <div class="info">
+            <span class="country">{{ weather.name }}, {{ weather.country }}</span><br>
+            
+            <span class="precipitation">{{ weather.weather.main }}, {{ weather.weather.description }}</span><br><br>
+            
+            <span class="main-info">humidity: </span>
+            <span>{{ weather.main.humidity }}%</span><br>
+            
+            <span class="main-info">pressure: </span>
+            <span>{{ weather.main.pressure }} mm</span><br>
+            
+            <span class="main-info">wind: </span>
+            <span>{{ weather.wind.speed }} m/s</span>
+        </div>
+
+        <div class="degrees">
+            <span class="update">updated: {{ date.toLocaleString("en-US", options) }}</span><br>
+
+            <span class="temperature">{{ weather.main.temp }}<sup class="deg-char">&degC</sup></span>
+        </div>
+        
+    </div>
+
+    <div class="transactions">
+        <table>
+            <thead>
+                <th width="85%">Transactions</th>
+                <th width="15%"></th>
+            </thead>
+            <tbody class="transactions-data">
+                <tr v-for="field in transactions.transactions">
+                    <th>{{field.title}}</th>
+                    <th>{{field.amount}}</th>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+       
+    <script type="text/javascript">
+        /*var weatherData = {
+            "weather": {
+            "main": "Drizzle",
+            "description": "light intensity drizzle"
+            },
+            "main": {
+            "temp": 18,
+            "pressure": 760,
+            "humidity": 81
+            },
+            "wind": {
+            "speed": 4.1
+            },
+            "updated": 1485789600,
+            "country": "GB",
+            "name": "London"
+        };
+        */
+        var transactionsData = {
+            "transactions": [
+                {
+                    title: "Income",
+                    amount: "$100"
+                },
+                {
+                    title: "Expense",
+                    amount: "$100"
+                },
+                {
+                    title: "Income 2",
+                    amount: "$100"
+                },
+                {
+                    title: "Expense 2",
+                    amount: "$100"
+                },
+                {
+                    title: "Income 3",
+                    amount: "$100"
+                }
+            ]
+        };
+        
+        var weatherData = $.ajax({
+            url: 'http://vhost115919.ispsite.ru/weather.json',
+            async: false,
+            dataType: 'json'
+        }).responseJSON;
+
+        /*var transactionsData = $.ajax({
+            url: 'http://vhost115919.ispsite.ru/transactions.json',
+            async: false,
+            dataType: 'json'
+        }).responseJSON;*/
+
+        new Vue({
+            el: '.weather',
+            data: {
+                date: new Date(),
+                options: {
+                    year: 'numeric',
+                    day: 'numeric',
+                    month: 'long',
+                    weekday: 'long',
+                    hour: 'numeric',
+                    minute: 'numeric'
+                },
+                weather: weatherData
+            }  
+        });
+
+        new Vue({
+            el: '.transactions',
+            data: {
+                transactions: transactionsData
+            }
+        })
+    </script>
+</body>
+</html>
