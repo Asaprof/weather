@@ -5,7 +5,8 @@ body {
 .weather {
     margin: 4em auto;
     width: 50%;
-    min-width: 680px;
+    min-width: 700px;
+    max-width: 1000px;
     height: 18em;
     text-align: center;
     background-color: white;
